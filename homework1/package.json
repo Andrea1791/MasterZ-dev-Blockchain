@@ -1,0 +1,24 @@
+{
+  "name": "homework1",
+  "version": "1.0.0",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@openzeppelin/test-helpers": "^0.5.16",
+    "truffle": "^5.11.5"
+  },
+  "devDependencies": {
+    "@openzeppelin/contracts": "^5.4.0",
+    "chai": "^5.2.1",
+    "chai-as-promised": "^8.0.1"
+  }
+}
