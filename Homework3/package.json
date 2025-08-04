@@ -1,0 +1,25 @@
+{
+  "name": "homework3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  "docs:md": "hardhat docgen",
+  "docs:html": "showdown makehtml -i docs/MyNFT.md -o docs/index.html"
+},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^6.1.0",
+    "hardhat": "^2.26.1",
+    "markdown-to-html-cli": "^5.0.3",
+    "showdown": "^2.1.0",
+    "solidity-docgen": "^0.6.0-beta.36"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.4.0",
+    "dotenv": "^17.2.1"
+  }
+}
