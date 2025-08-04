@@ -7,7 +7,7 @@ const { expect } = require('chai');
 const Token = artifacts.require('Token');
 const Wallet = artifacts.require('Wallet');
 const PriceConsumerV3 = artifacts.require('PriceConsumerV3');
-const AggregatorProxy = artifacts.require('AggregatorProxy');
+const AggregatorV3Interface = artifacts.require('AggregatorV3Interface');
 
 /**
  * Network: mainnet
@@ -56,7 +56,7 @@ it("Eth / Usd price", async function () {
 });
 
 it("Azuki / Eth price", async function () {
-    const azukiUsdData = await AggregatorProxy.at(azukiPriceContract);
+    const azukiUsdData = await AggregatorV3Interface.at(azukiPriceContract);
     let ret = await azukiUsdData.decimals();
     console.log(ret.toString());
     let res = await azukiUsdData.latestRoundData();

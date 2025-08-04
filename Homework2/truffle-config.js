@@ -41,8 +41,8 @@
  * https://trufflesuite.com/docs/truffle/getting-started/using-the-truffle-dashboard/
  */
 
-// require('dotenv').config();
-// const { MNEMONIC, PROJECT_ID } = process.env;
+require('dotenv').config();
+const { SEPOLIA_RPC_URL, PRIVATE_KEY, INFURA_PROJECT_ID, MNEMONIC } = process.env;
 
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 
@@ -60,30 +60,41 @@ module.exports = {
   networks: {
     // Useful for testing. The `development` name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
-    // You should run a client (like ganache, geth, or parity) in a separate terminal
-    // tab if you use this network and you must also set the `host`, `port` and `network_id`
-    // options below to some value.
-    //
     development: {
       host: "127.0.0.1",     // Localhost (default: none)
       port: 8545,            // Standard Ethereum port (default: none)
       network_id: "*",       // Any network (default: none)
     },
-    //
-    // An additional network, but with some advanced options…
-    // advanced: {
-    //   port: 8777,             // Custom port
-    //   network_id: 1342,       // Custom network
-    //   gas: 8500000,           // Gas sent with each transaction (default: ~6700000)
-    //   gasPrice: 20000000000,  // 20 gwei (in wei) (default: 100 gwei)
-    //   from: <address>,        // Account to send transactions from (default: accounts[0])
-    //   websocket: true         // Enable EventEmitter interface for web3 (default: false)
-    // },
-    //
-    // Useful for deploying to a public network.
-    // Note: It's important to wrap the provider as a function to ensure truffle uses a new provider every time.
+    
+    // Sepolia testnet configuration
+    sepolia: {
+      provider: () => {
+        if (PRIVATE_KEY && SEPOLIA_RPC_URL) {
+          return new HDWalletProvider({
+            privateKeys: [PRIVATE_KEY],
+            providerOrUrl: SEPOLIA_RPC_URL,
+            pollingInterval: 12000,  // Slower polling to avoid issues
+            timeout: 60000,          // 60 second timeout
+          });
+        } else if (MNEMONIC && INFURA_PROJECT_ID) {
+          return new HDWalletProvider(MNEMONIC, `https://sepolia.infura.io/v3/${INFURA_PROJECT_ID}`);
+        }
+        throw new Error('Must provide either PRIVATE_KEY + SEPOLIA_RPC_URL or MNEMONIC + INFURA_PROJECT_ID');
+      },
+      network_id: 11155111,       // Sepolia's network id
+      gas: 5000000,               // Slightly lower gas limit
+      gasPrice: 25000000000,      // 25 gwei (slightly higher for faster inclusion)
+      confirmations: 1,           // Reduced confirmations for faster deployment
+      timeoutBlocks: 500,         // Increased timeout blocks
+      skipDryRun: true,           // Skip dry run before migrations
+      chainId: 11155111,          // Sepolia's chain id
+      networkCheckTimeout: 120000, // 2 minute timeout for network check
+      deploymentPollingInterval: 15000, // Even slower polling
+    },
+    
+    // Keep Goerli for compatibility (though deprecated)
     goerli: {
-       provider: () => new HDWalletProvider(MNEMONIC, `https://mainnet.infura.io/v3/a28dc41aed8241dcb61f0ab86421cbee`),
+       provider: () => new HDWalletProvider(MNEMONIC, `https://goerli.infura.io/v3/${INFURA_PROJECT_ID}`),
       network_id: 5,       // Goerli's id
       confirmations: 2,    // # of confirmations to wait between deployments. (default: 0)
       timeoutBlocks: 200,  // # of blocks before a deployment times out  (minimum/default: 50)

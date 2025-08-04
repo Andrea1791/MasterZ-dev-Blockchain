@@ -13,7 +13,7 @@
   "license": "MIT",
   "description": "",
   "dependencies": {
-    "@chainlink/contracts": "^1.2.0",
+    "@chainlink/contracts": "^1.4.0",
     "@openzeppelin/contracts": "^4.8.1",
     "@truffle/hdwallet-provider": "^2.0.16",
     "chai": "^4.3.7",
